@@ -1,5 +1,5 @@
 # dv
-Visualisation tool for Binary file
+Visualisation tool for Binary files
 
 This is wip!
 
