@@ -22,8 +22,7 @@ const Wrapper = styled("div", React.forwardRef)`
 let MONACO_READY = false;
 const READY_LIST = [];
 
-require(["vs/editor/editor.main"], function () {
-  //eslint-disable-line import/no-amd
+require(["vs/editor/editor.main"], function () {  //eslint-disable-line import/no-amd
   window.monaco.languages.registerCompletionItemProvider("javascript", {
     provideCompletionItems: function (model, position) {
       const list = [
