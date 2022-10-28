@@ -6,6 +6,7 @@ class BinaryStream {
     this.length = buffer.length;
     this.m_mark = null;
     this.resetBuffer();
+    this.checkBitValues = checkBitValues;
   }
   resetBuffer() {
     this.offset = 0;

@@ -161,7 +161,7 @@ const StringValue = ({ node, color }) => {
     if (displayType === 1) return node.string.substr(0, MAX_LENGTH);
     const list = [];
     for (const byte of node.value) {
-      list.push(byte.toString(16));
+      list.push("0x" + byte.toString(16));
       if (list.length === MAX_LENGTH) break;
     }
     return list.join(",");
@@ -215,7 +215,7 @@ const BitFieldValue = ({ node, color }) => {
   return (
     <ValueStyle $typeColor={color}>
       <BitContainer>
-        {node.value.map((entry, i) => (
+        {(node.value || []).map((entry, i) => (
           <div key={i}>
             <span className={"index"}>{i}</span>
             {Object.values(entry).map((v, ii) => (

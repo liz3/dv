@@ -135,6 +135,15 @@ export const transform = (stream, config, parentElements = []) => {
         () => field.compute(stream, [...parentElements, ...elements]),
         o
       );
+      if (
+        computed.type !== "padding" &&
+        computed.type !== "array" &&
+        computed.type !== "custom" &&
+        !field.noHide
+      ) {
+        elements.push(computed);
+        continue;
+      }
       o.value = computed;
     } else {
       o.value = tr(
@@ -151,7 +160,18 @@ export const transform = (stream, config, parentElements = []) => {
   return elements;
 };
 const transformBuffer = (buffer, config) => {
-  return transform(new BinaryStream(buffer), config);
+  try {
+    return transform(new BinaryStream(buffer), config);
+  } catch (err) {
+    return [
+      {
+        type: "u8",
+        name: "Error",
+        value: null,
+        error: err.message,
+      },
+    ];
+  }
 };
 
 export default transformBuffer;
