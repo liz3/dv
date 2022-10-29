@@ -50,7 +50,7 @@ that function is **not** awaited, it needs to be syncronize, further it can have
 Here are some general available properties on fields.
 
 - `type:TypeString`: The type of the field, see below for a list of types
-- `name:string`: The name for the field
+- `name:(string/function:string)`: The name for the field
 - [optional]`absolute_pos:(number/function:number)`: Compute/provide the absolute offset for a field, note that after computation the stream will automatically rewind to the starting position.
 - [optional]`offset:(number/function:number)`: Compute/provide a relative offset from the current position.
 - [optional]`condition(boolean/function:boolean)`: A precondition if the field should be computed, if this is true, it will still be visible in the node view but there will be no computation, i.e no stream pos modifications etc.

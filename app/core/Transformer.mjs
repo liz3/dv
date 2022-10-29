@@ -69,7 +69,7 @@ export const transform = (stream, config, parentElements = []) => {
   for (const field of config.fields) {
     const { name, props } = field;
     const o = {
-      name,
+      name: typeof name === "function" ? name(stream, [...parentElements, ...elements]) : name,
       type: field.type,
       byteStart: stream.offset,
       error: null,
