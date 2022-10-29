@@ -22,7 +22,9 @@ const Bar = styled("div", React.forwardRef)`
   width: 100%;
 `;
 const Scrollbar = ({ max, visible, onChange }) => {
-  const bar_height = (visible / max < 0.05 ? 0.05 : visible / max) * 100;
+  const bar_height =
+    visible >= max ? 100 : (visible / max < 0.05 ? 0.05 : visible / max) * 100;
+  console.log(visible, max);
   const ref = useRef();
   const viewRef = useRef();
   useEffect(() => {
@@ -75,7 +77,7 @@ const Scrollbar = ({ max, visible, onChange }) => {
     };
   }, [ref, viewRef, max]);
   return (
-    <Wrapper ref={viewRef} $height={bar_height}>
+    <Wrapper ref={viewRef} $height={bar_height < 50 ? bar_height : 0}>
       <div>
         <Bar ref={ref} $height={bar_height} />
       </div>
