@@ -41,7 +41,7 @@ the type is a existing function within the stream api.
 This is a full list and explanation of the available types that can be put on a **FIELD** of a model.
 
 Before we go over this, most properties can be passed a value or a function which dv will invoke during mapping of the file.  
-that function is **not** awaited, it needs to be syncronized, further it can have two arguments:
+that function is **not** awaited, it needs to be syncronize, further it can have two arguments:
 
 1. `stream`: This is the instance of the stream for use by the function, **careful** as using stream functions like resetBuffer/skip/mark/rewindToMark can break the expected flow of the model
    through the file.
