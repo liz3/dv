@@ -70,7 +70,7 @@ Required properties:
 ### C-Style string
 
 TypeString: `cStr`
-Optional properties:
+Optional properties:  
 
 - `withNull:boolean`: Control if the NULL byte should be included in the data, otherwise it will be silently skipped  
   Reads a C-Style null byte terminated string.
