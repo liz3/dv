@@ -1,0 +1,9 @@
+{
+  "appId": "com.liz3.dv",
+  "productName": "dv",
+  "extraMetadata": {
+    "name": "dv",
+    "main": "app/build.js"
+  },
+  "files": ["build/**/*", "app/build.js", "app/preload.js"]
+}

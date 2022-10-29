@@ -15,7 +15,7 @@ const extract_value = (stream, elements, value) => {
   if (typeof value === "function") return value(stream, elements);
   return value;
 };
-const tr = (cb, o) => {
+const try_exec = (cb, o) => {
   let result = null;
   try {
     result = cb();
@@ -113,7 +113,7 @@ export const transform = (stream, config, parentElements = []) => {
 
       o.values = array_elements;
     } else if (field.type === "padding") {
-      const size = tr(
+      const size = try_exec(
         () =>
           extract_config_value(
             stream,
@@ -131,7 +131,7 @@ export const transform = (stream, config, parentElements = []) => {
         o.error = "negative size";
       }
     } else if (field.type === "custom") {
-      const computed = tr(
+      const computed = try_exec(
         () => field.compute(stream, [...parentElements, ...elements]),
         o
       );
@@ -146,7 +146,7 @@ export const transform = (stream, config, parentElements = []) => {
       }
       o.value = computed;
     } else {
-      o.value = tr(
+      o.value = try_exec(
         () => read_value(stream, [...parentElements, ...elements], field),
         o
       );
@@ -161,7 +161,9 @@ export const transform = (stream, config, parentElements = []) => {
 };
 const transformBuffer = (buffer, config) => {
   try {
-    return transform(new BinaryStream(buffer), config);
+    const stream = new BinaryStream(buffer);
+    stream.config_vars = config.vars;
+    return transform(stream, config);
   } catch (err) {
     return [
       {

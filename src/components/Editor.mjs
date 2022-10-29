@@ -1,14 +1,18 @@
 import React, { useRef, useEffect, useState } from "react";
 import { styled } from "goober";
-require.config({ paths: { vs: "/monaco/vs" } });
+require.config({ paths: { vs: "monaco/vs" } });
+const path_base =
+  window.location.protocol === "file:"
+    ? "file://" + window.location.pathname.replace("/index.html", "")
+    : window.location.origin;
 const proxy = URL.createObjectURL(
   new Blob(
     [
       `
 self.MonacoEnvironment = {
-baseUrl: '${window.location.origin}/monaco'
+      baseUrl: '${path_base}/monaco'
 };
-importScripts('${window.location.origin}/monaco/vs/base/worker/workerMain.js');
+      importScripts('${path_base}/monaco/vs/base/worker/workerMain.js');
 `,
     ],
     { type: "text/javascript" }
@@ -22,7 +26,8 @@ const Wrapper = styled("div", React.forwardRef)`
 let MONACO_READY = false;
 const READY_LIST = [];
 
-require(["vs/editor/editor.main"], function () {  //eslint-disable-line import/no-amd
+require(["vs/editor/editor.main"], function () {
+  //eslint-disable-line import/no-amd
   window.monaco.languages.registerCompletionItemProvider("javascript", {
     provideCompletionItems: function (model, position) {
       const list = [

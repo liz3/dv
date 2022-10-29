@@ -17,9 +17,9 @@ const WrapperStyle = styled("div")`
     color: #bababa;
     font-size: 0.8rem;
     margin-right: 10px;
-    & .clickable:hover {
-      cursor: pointer;
-    }
+  }
+  > .clickable:hover {
+    cursor: pointer;
   }
 `;
 const BottomLine = ({}) => {

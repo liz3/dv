@@ -8,10 +8,6 @@ const state = {
   counter: 0,
   entries: {},
 };
-
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
-
 const ipcHandlers = async (window) => {
   ipcMain.handle("get_files", async (ev) => {
     return state.entries;
@@ -30,7 +26,7 @@ const ipcHandlers = async (window) => {
       if (existing_model) {
         const file_content = fs.readFileSync(file.path);
         entry.model_str = existing_model;
-        const evaluated_model = eval(existing_model);
+        const evaluated_model = (0, eval)(existing_model);
         const result = transformBuffer(file_content, evaluated_model);
         if (result) entry.nodes = result;
       }
@@ -43,7 +39,7 @@ const ipcHandlers = async (window) => {
     if (!state.entries[id]) return null;
     const entry = state.entries[id];
     utils.save_model_data(entry.file.path, model);
-    const evaluated_model = eval(model);
+    const evaluated_model = (0, eval)(model);
     const file_content = fs.readFileSync(entry.file.path);
     const res = transformBuffer(file_content, evaluated_model);
     if (!res) return null;
@@ -64,7 +60,7 @@ const ipcHandlers = async (window) => {
   });
 };
 
-const main = async () => {
+const main = async (__dirname) => {
   await app.whenReady();
   app.setName("dv");
 
@@ -74,7 +70,11 @@ const main = async () => {
     },
   });
   ipcHandlers(window);
-  window.loadURL("http://localhost:3000");
+  if (process.env.NODE_ENV === "development")
+    window.loadURL("http://localhost:3000");
+  else window.loadFile(path.join(__dirname, "..", "build", "index.html"));
 };
 
-main();
+export default function (__dirname) {
+  main(__dirname);
+}

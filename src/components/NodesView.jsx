@@ -158,7 +158,7 @@ const MAX_LENGTH = 200;
 const StringValue = ({ node, color }) => {
   const [displayType, setDisplayType] = useState(1);
   const value = useMemo(() => {
-    if (displayType === 1) return node.string.substr(0, MAX_LENGTH);
+    if (displayType === 1) return (node.string || "").substr(0, MAX_LENGTH);
     const list = [];
     for (const byte of node.value) {
       list.push("0x" + byte.toString(16));
@@ -247,19 +247,19 @@ const Node = ({ node }) => {
     return (
       <ValueStyle $typeColor={cc}>
         <span>
-          {type === "u64" || type === "s64"
-            ? node.value.toString()
-            : node.value}
+          {typeof node.value === "bigint" ? node.value.toString() : node.value}
         </span>
       </ValueStyle>
     );
   }, [node]);
+  const omit_length =
+    type === "array" || type === "custom" || Number.isNaN(node.byteLength);
   return (
     <NodeStyle $typeColor={cc}>
       <div className={"type-box"}>
         <span>
           {type}{" "}
-          {type !== "array" && type !== "custom"
+          {!omit_length
             ? `${node.byteStart}-${node.byteStart + node.byteLength}`
             : ""}
         </span>
