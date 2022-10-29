@@ -69,7 +69,7 @@ Required properties:
 
 ### C-Style string
 
-TypeString: `cStr`
+TypeString: `cStr`  
 Optional properties:  
 
 - `withNull:boolean`: Control if the NULL byte should be included in the data, otherwise it will be silently skipped  
