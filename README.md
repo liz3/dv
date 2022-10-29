@@ -11,7 +11,7 @@ It then uses that model to analyse the file and give a "Node view" of the actual
 
 # How does the model work?
 
-The model is the model which dv uses to analyse files.
+The model is the structure which dv uses to analyse binary files, it contains the definitions for all fields which are expected in a file.
 
 A very simple model would look like:
 
@@ -31,8 +31,8 @@ A very simple model would look like:
 
 ```
 
-If you look at the fields it comes obvious neither fields have absolute byte positions, thats not needed. dv wraps nodes Bufffer
-in a stream api so that its not needed.  
+If you look at the fields it comes obvious neither fields have absolute byte positions, thats not needed as dv wraps nodes Buffer
+in a stream api.
 As a side fact, the `type` of a model is actually a implicit function name within the Stream api, as except in some special cases
 the type is a existing function within the stream api.
 
