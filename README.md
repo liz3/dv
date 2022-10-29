@@ -72,8 +72,9 @@ Required properties:
 TypeString: `cStr`  
 Optional properties:  
 
-- `withNull:boolean`: Control if the NULL byte should be included in the data, otherwise it will be silently skipped  
-  Reads a C-Style null byte terminated string.
+- `withNull:boolean`: Control if the NULL byte should be included in the data, otherwise it will be silently skipped
+
+Reads a C-Style null byte terminated string.
 
 ### BitField
 
@@ -81,7 +82,8 @@ TypeString: `bitField`
 Required Properties:
 
 - `len:(number/function:number)`: The Bit Field length in BYTES.
-  This reads the given amount of bytes and will display them as a 0/1 bit field view, this can be used for bit flags.
+
+This reads the given amount of bytes and will display them as a 0/1 bit field view, this can be used for bit flags.
 
 ### Padding
 
@@ -89,7 +91,8 @@ TypeString: `padding`
 Required Properties:
 
 - `len:(number/function:number)`: The padding size in BYTES.
-  This simply skips the given amount of bytes.
+
+This simply skips the given amount of bytes.
 
 ### Array
 
