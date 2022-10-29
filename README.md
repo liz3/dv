@@ -43,7 +43,7 @@ This is a full list and explanation of the available types that can be put on a 
 Before we go over this, most properties can be passed a value or a function which dv will invoke during mapping of the file.  
 that function is **not** awaited, it needs to be syncronized, further it can have two arguments:
 
-1. ``stream`: This is the instance of the stream for use by the function, **careful** as using stream functions like resetBuffer/skip/mark/rewindToMark can break the expected flow of the model
+1. `stream`: This is the instance of the stream for use by the function, **careful** as using stream functions like resetBuffer/skip/mark/rewindToMark can break the expected flow of the model
    through the file.
 2. `elements`: This is a array of all until now computed nodes, this might be needed when functions depend on prior values.
 
