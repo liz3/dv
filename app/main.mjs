@@ -68,6 +68,7 @@ const main = async (__dirname) => {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
+    autoHideMenuBar: true,
   });
   ipcHandlers(window);
   if (process.env.NODE_ENV === "development")

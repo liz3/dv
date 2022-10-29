@@ -8,9 +8,9 @@ import React, {
 } from "react";
 import { styled } from "goober";
 import DataState from "../common/DataState.mjs";
+import Scrollbar from "./Scrollbar.jsx";
 
 const HexViewStyle = styled("div", React.forwardRef)`
-  width: 100%;
   flex-grow: 1;
   overflow-y: hidden;
   display: grid;
@@ -24,6 +24,13 @@ const HexViewStyle = styled("div", React.forwardRef)`
   }
 `;
 
+const Wrapper = styled("div")`
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: hidden;
+`;
 const HexView = ({ id, active, height, editorVisible }) => {
   const ref = useRef();
 
@@ -77,6 +84,7 @@ const HexView = ({ id, active, height, editorVisible }) => {
       else if (valueRef.current > tRows - bounds.rectBounds.rows + 2)
         valueRef.current = tRows - bounds.rectBounds.rows - 1;
       const skip = bounds.rectBounds.columns * valueRef.current;
+      DataState.emit("scrollValue", valueRef.current);
       for (
         let i = 0;
         i < bounds.rectBounds.columns * bounds.rectBounds.rows;
@@ -102,14 +110,29 @@ const HexView = ({ id, active, height, editorVisible }) => {
 
       render();
     };
+    const l2 = (v) => {
+      valueRef.current = v;
+      if (valueRef.current < 0) valueRef.current = 0;
+      if (valueRef.current > totalRows + 2 - bounds.rectBounds.rows) {
+        valueRef.current = totalRows + 2 - bounds.rectBounds.rows;
+      }
+      render();
+    };
     render();
     ref.current.addEventListener("wheel", listener, {
       passive: true,
     });
+    DataState.register("setScroll", l2);
     return () => {
       ref.current.removeEventListener("wheel", listener);
+      DataState.unregister("setScroll", l2);
     };
   }, [ref.current, bounds, bytes]);
-  return <HexViewStyle ref={ref} />;
+  return (
+    <Wrapper>
+      <HexViewStyle ref={ref} />
+      <Scrollbar max={totalRows} visible={bounds?.rectBounds.rows || 0} />
+    </Wrapper>
+  );
 };
 export default HexView;

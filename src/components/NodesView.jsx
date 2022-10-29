@@ -6,7 +6,7 @@ const NodeViewWrapper = styled("div")`
   flex-grow: 1;
   padding: 10px 0 0 0;
   overflow-y: auto;
-  & > div:not(:last-child)::after {
+  & > .node:not(:last-child)::after {
     content: "";
     width: 5px;
     height: 1px;
@@ -15,7 +15,7 @@ const NodeViewWrapper = styled("div")`
     right: -6px;
     top: 50%;
   }
-  & > div:not(:first-child)::before {
+  & > .node:not(:first-child)::before {
     content: "";
     width: 5px;
     height: 1px;
@@ -154,6 +154,21 @@ const BitContainer = styled("div")`
     color: #cd1a49;
   }
 `;
+const SearchInput = styled("input")`
+  width: 200px;
+  height: 30px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  border-radius: 5px;
+  color: #bab6b6;
+  background: #242020;
+  outline: none;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  font-size: 15px;
+  padding: 0 5px;
+`;
 const MAX_LENGTH = 200;
 const StringValue = ({ node, color }) => {
   const [displayType, setDisplayType] = useState(1);
@@ -229,7 +244,7 @@ const BitFieldValue = ({ node, color }) => {
     </ValueStyle>
   );
 };
-const Node = ({ node }) => {
+const Node = ({ node, search }) => {
   const { type, name, error } = node;
   const cc = error ? "#910000" : TYPE_COLORS[type];
   const valueRendered = useMemo(() => {
@@ -254,8 +269,9 @@ const Node = ({ node }) => {
   }, [node]);
   const omit_length =
     type === "array" || type === "custom" || Number.isNaN(node.byteLength);
+  if (search && !name.toLowerCase().includes(search.toLowerCase())) return null;
   return (
-    <NodeStyle $typeColor={cc}>
+    <NodeStyle className={"node"} $typeColor={cc}>
       <div className={"type-box"}>
         <span>
           {type}{" "}
@@ -272,11 +288,19 @@ const Node = ({ node }) => {
 };
 
 const NodeView = ({ nodes }) => {
+  const [search, setSearch] = useState("");
+
   return (
     <NodeViewWrapper>
       {nodes.map((node, i) => (
-        <Node node={node} key={i} />
+        <Node node={node} search={search.length ? search : null} key={i} />
       ))}
+
+      <SearchInput
+        value={search}
+        onChange={(ev) => setSearch(ev.target.value)}
+        placeHolder={"Node Search"}
+      />
     </NodeViewWrapper>
   );
 };

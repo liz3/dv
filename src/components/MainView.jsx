@@ -9,12 +9,14 @@ import NodeView from "./NodesView.jsx";
 const WrapperStyle = styled("div")`
   width: 100%;
   flex: 1;
+  position: relative;
   max-height: calc(100% - 50px);
   .main-content {
     width: 100%;
     height: 100%;
   }
 `;
+
 const EmptyContainerStyle = styled("div", React.forwardRef)`
   width: 100%;
   height: 100%;
